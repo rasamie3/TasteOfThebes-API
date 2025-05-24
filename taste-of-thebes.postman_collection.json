@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "TasteOfThebes API",
+		"description": "API collection for managing restaurants and API keys",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Welcome",
+			"item": [
+				{
+					"name": "Get API Documentation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": ["{{base_url}}"],
+							"path": [""]
+						},
+						"description": "Returns API documentation and available endpoints"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Key Management",
+			"item": [
+				{
+					"name": "Create API Key",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/createAPIKey?role=admin",
+							"host": ["{{base_url}}"],
+							"path": ["api", "createAPIKey"],
+							"query": [
+								{
+									"key": "role",
+									"value": "admin",
+									"description": "Role can be 'admin' or 'user'"
+								}
+							]
+						},
+						"description": "Creates a new API key for a specified role"
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Admin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/approveAdmin?superAdminKey={{super_admin_key}}&adminKey={{admin_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "approveAdmin"],
+							"query": [
+								{
+									"key": "superAdminKey",
+									"value": "{{super_admin_key}}",
+									"description": "Super admin's API key"
+								},
+								{
+									"key": "adminKey",
+									"value": "{{admin_key}}",
+									"description": "Admin's API key to be approved"
+								}
+							]
+						},
+						"description": "Allows super admin to approve an admin API key"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Admin Approval",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/isAdminApproved?adminKey={{admin_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "isAdminApproved"],
+							"query": [
+								{
+									"key": "adminKey",
+									"value": "{{admin_key}}",
+									"description": "Admin's API key to check approval status"
+								}
+							]
+						},
+						"description": "Checks if an admin API key has been approved"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant Management",
+			"item": [
+				{
+					"name": "Get All Restaurants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/getAllRestaurants?key={{api_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "getAllRestaurants"],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{api_key}}",
+									"description": "Valid API key"
+								}
+							]
+						},
+						"description": "Retrieves all restaurants from the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Restaurant",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"arabic_name\": \"مطعم\",\n    \"name\": \"Restaurant Name\",\n    \"description\": \"Restaurant description\",\n    \"address\": \"Restaurant address\",\n    \"phone\": \"+1234567890\",\n    \"email\": \"restaurant@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/addRestaurant?key={{admin_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "addRestaurant"],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{admin_key}}",
+									"description": "Valid admin API key"
+								}
+							]
+						},
+						"description": "Creates a new restaurant (requires admin role and approval)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Restaurants With Missing Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/getRestaurantsWithMissingData?key={{admin_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "getRestaurantsWithMissingData"],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{admin_key}}",
+									"description": "Valid admin API key"
+								}
+							]
+						},
+						"description": "Retrieves restaurants that have missing required information (requires admin role and approval)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Restaurant",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Restaurant Name\",\n    \"description\": \"Updated description\",\n    \"address\": \"Updated address\",\n    \"phone\": \"+1987654321\",\n    \"email\": \"updated@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/updateRestaurant/:id?key={{admin_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "updateRestaurant", ":id"],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{admin_key}}",
+									"description": "Valid admin API key"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Restaurant ID"
+								}
+							]
+						},
+						"description": "Updates an existing restaurant's information (requires admin role and approval)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Restaurant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/deleteRestaurant/:id?key={{admin_key}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "deleteRestaurant", ":id"],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{admin_key}}",
+									"description": "Valid admin API key"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Restaurant ID"
+								}
+							]
+						},
+						"description": "Deletes a restaurant (requires admin role and approval)"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "api_key",
+			"value": "your_api_key_here",
+			"type": "string"
+		},
+		{
+			"key": "admin_key",
+			"value": "your_admin_key_here",
+			"type": "string"
+		},
+		{
+			"key": "super_admin_key",
+			"value": "your_super_admin_key_here",
+			"type": "string"
+		}
+	]
+} 
