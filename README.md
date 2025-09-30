@@ -84,7 +84,7 @@ This approach ensures reliable and up-to-date restaurant information for our use
    ```
 4. Start the server:
    ```bash
-   npm app.js
+   node app.js
    ```
 
 ## API Testing
